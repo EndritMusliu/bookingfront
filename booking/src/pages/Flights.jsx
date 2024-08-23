@@ -3,11 +3,12 @@ import Footer from "../components/Footer";
 
 function Flights() {
     return(
-        <div>
-            <h1>HELLO FROM FLIGHTS</h1>
-            <Footer />
+        <div className="d-flex flex-column min-vh-100">
+        <div className="flex-grow-1">
+          {/* Your page content goes here */}
         </div>
-
+        <Footer />
+      </div>
     );
 
 }
