@@ -3,11 +3,13 @@ import Footer from "../components/Footer";
 
 function Stays(){
     return(
-<div>
-    <h1>Staysss</h1>
-    <Footer/>
-</div>
+<div className="d-flex flex-column min-vh-100">
+      <div className="flex-grow-1">
+        {/* Your page content goes here */}
+      </div>
+      <Footer />
+    </div>
     );
 
 }
-export default Stays;
+export default Stays
