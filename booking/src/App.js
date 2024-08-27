@@ -9,6 +9,9 @@ import Register from './pages/Register';
 import SignIn from './pages/SignIn';
 import SearchComponent from "./components/SearchComponent";
 import Banner from './components/Banner';
+import Properties from './components/Properties';
+import FavoriteButton from './components/FavoriteButton';
+import PropertyDetails from './pages/PropertyDetails';
 
 
 function App() {
@@ -23,6 +26,10 @@ function App() {
         <Route path="/searchcomponent" element={<SearchComponent />} />
         <Route path="/banner" element={<Banner />} />
         <Route path="/signin" element={<SignIn />}/>
+        <Route path='/properties' element={<Properties/>}/>
+        <Route path='/properties/details' element={<PropertyDetails/>}/>
+
+        <Route path='/favoritebutton' element={<FavoriteButton/>}/>
       </Routes>
     </Router>
   );
