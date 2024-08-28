@@ -12,6 +12,7 @@ import Banner from './components/Banner';
 import Properties from './components/Properties';
 import FavoriteButton from './components/FavoriteButton';
 import PropertyDetails from './pages/PropertyDetails';
+import SearchFlight from './components/SearchFlight';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Menu /> 
       <Routes>
         <Route path="/" element={<Stays />} />
+        <Route path='search/flight' element={<SearchFlight/>}/>
         <Route path="/flights" element={<Flights />} />
         <Route path="/footer" element={<Footer />} />
         <Route path="/register" element={<Register />} />
