@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaBeer } from 'react-icons/fa';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Menu from './components/Menu'; // Import your menu
 import Flights from './pages/Flights';
 import Stays from './pages/Stays'
@@ -13,14 +13,21 @@ import Properties from './components/Properties';
 import FavoriteButton from './components/FavoriteButton';
 import PropertyDetails from './pages/PropertyDetails';
 import SearchFlight from './components/SearchFlight';
+import {useAuth} from "./context/AuthContext";
+import LoginPage from "./pages/Login";
+import SignUpPage from "./pages/SignUpPage";
 
 
 function App() {
+
+  const {isAuthenticated}=useAuth();
+
   return (
     <Router>
-      <Menu /> 
+      {isAuthenticated && <Menu/>}
       <Routes>
-        <Route path="/" element={<Stays />} />
+        <Route path="/" element={<Navigate replace to={isAuthenticated ? "/stays" : "/login"}/>} />
+        <Route path="/stays" element={<Stays />} />
         <Route path='search/flight' element={<SearchFlight/>}/>
         <Route path="/flights" element={<Flights />} />
         <Route path="/footer" element={<Footer />} />
@@ -32,6 +39,10 @@ function App() {
         <Route path='/properties/details' element={<PropertyDetails/>}/>
 
         <Route path='/favoritebutton' element={<FavoriteButton/>}/>
+
+
+        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/signup" element={<SignUpPage/>}/>
       </Routes>
     </Router>
   );
