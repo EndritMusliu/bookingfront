@@ -27,17 +27,16 @@ function App() {
       {isAuthenticated && <Menu/>}
       <Routes>
         <Route path="/" element={<Navigate replace to={isAuthenticated ? "/stays" : "/login"}/>} />
-        <Route path="/stays" element={<Stays />} />
-        <Route path='search/flight' element={<SearchFlight/>}/>
-        <Route path="/flights" element={<Flights />} />
-        <Route path="/footer" element={<Footer />} />
+        <Route path="/stays" element={isAuthenticated ? <Stays /> : <Navigate replace to="/login" />} />
+        <Route path='search/flight' element={isAuthenticated ? <SearchFlight /> : <Navigate replace to="/login" />} />
+        <Route path="/flights" element={isAuthenticated ? <Flights /> : <Navigate replace to="/login" />} />
+        <Route path="/footer" element={isAuthenticated ? <Footer /> : <Navigate replace to="/login" />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/searchcomponent" element={<SearchComponent />} />
+        <Route path="/searchcomponent" element={isAuthenticated ? <SearchComponent /> : <Navigate replace to="/login" />} />
         <Route path="/banner" element={<Banner />} />
         <Route path="/signin" element={<SignIn />}/>
         <Route path='/properties' element={<Properties/>}/>
-        <Route path='/properties/details' element={<PropertyDetails/>}/>
-
+        <Route path='/properties/details' element={isAuthenticated ? <PropertyDetails /> : <Navigate replace to="/login" />} />
         <Route path='/favoritebutton' element={<FavoriteButton/>}/>
 
 
