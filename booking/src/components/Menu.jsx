@@ -65,22 +65,15 @@ function Menu() {
                 >
 <TfiWorld />
 </button>
-          <a>
+          <a href='/list/properties'>
             <button  class="btn bg-none rounded text-white">
             List your property
             </button>
             </a>
-            <a href='/register'>
-            <button  class="btn bg-white rounded text-primary">
-            Register
-            </button>
-            </a>
+
         
           </li>
-          <li className="nav-item">
-            <a href="/signin">            <button class="btn bg-white rounded text-primary ms-3">Sign In</button>
-            </a>
-          </li>
+  
         </ul>
       </div>
     </div>
