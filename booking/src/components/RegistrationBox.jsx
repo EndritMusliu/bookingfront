@@ -51,9 +51,11 @@ function RegistrationBox() {
                     We handle payments for you
                   </li>
                 </ul>
-                <button className="btn btn-primary btn-lg w-100">
+                <a href="/register/property">   
+                <button className="btn btn-primary btn-lg w-100" >
                   Get started now
-                </button>
+                </button></a>
+     
                 <p className="mt-3">
                   Already started a registration? <a href="#">Continue your registration</a>
                 </p>

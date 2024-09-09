@@ -1,7 +1,7 @@
-// src/context/AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import {API_URL} from "../utils/backendApi";
+import apiClient from '../services/axiosConfig'; // Import the axios instance
+import { API_URL } from '../utils/backendApi'; // Assuming you have this configured elsewhere
 
 const AuthContext = createContext(null);
 
@@ -19,17 +19,17 @@ export const AuthProvider = ({ children }) => {
 
     const setAxiosAuthHeader = (token) => {
         if (token) {
-            axios.defaults.headers.common['Authorization'] = `Token ${token}`;
+            apiClient.defaults.headers.common['Authorization'] = `Token ${token}`;
         } else {
-            delete axios.defaults.headers.common['Authorization'];
+            delete apiClient.defaults.headers.common['Authorization'];
         }
     };
 
     const fetchUserDetails = async (token) => {
         try {
-            const response = await axios.get(`${API_URL}users/me/`, {
+            const response = await apiClient.get('users/me/', {
                 headers: {
-                    Authorization: `Token ${token}`
+                    Authorization: `Token ${token}`  // Redundant, but ensures token is sent
                 }
             });
             setUser(response.data);
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
         setAuthToken(null);
         setIsAuthenticated(false);
         setUser(null);
-        delete axios.defaults.headers.common['Authorization'];
+        delete apiClient.defaults.headers.common['Authorization'];
     };
 
     return (
