@@ -9,7 +9,6 @@ import { Link, useLocation } from 'react-router-dom'; // Import Link and useLoca
 
 function Menu() {
   const location = useLocation(); // Get current route
-  console.log(location);
 
   
   return (
@@ -28,7 +27,7 @@ function Menu() {
                 to="/"
               >
                 <div
-                  className={`p-2 ${location.pathname === '/' ? 'border border-light rounded-5' : ''}`}
+                  className={`p-2 text-white ${location.pathname === '/' ? 'border border-light rounded-5' : ''}`}
                 >
                   <IoBed /> Stays
                 </div>
@@ -40,7 +39,7 @@ function Menu() {
                 to="/flights"
               >
                 <div
-                  className={`p-2 ${location.pathname === '/flights' ? 'border border-light rounded-5' : ''}`}
+                  className={`p-2 text-white ${location.pathname === '/flights' ? 'border border-light rounded-5' : ''}`}
                 >
                   <ImAirplane /> Flights
                 </div>

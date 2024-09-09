@@ -19,6 +19,7 @@ import SignUpPage from "./pages/SignUpPage";
 import RegistrationBox from './components/RegistrationBox';
 import ListProperty from './pages/ListProperty';
 import RegisterInfoComponent from './components/RegisterInfoComponent';
+import RegisterProperty from './pages/RegisterProperty';
 
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
         <Route path='/registration/box' element={isAuthenticated ? <RegistrationBox /> : <Navigate replace to="/login" />} />
         <Route path='/list/properties' element={isAuthenticated ? <ListProperty /> : <Navigate replace to="/login" />} />
         <Route path='/registration/info' element={isAuthenticated ? <RegisterInfoComponent /> : <Navigate replace to="/login" />} />
-
+        <Route path='/register/property' element={isAuthenticated ? <RegisterProperty /> : <Navigate replace to="/login" />} />
         <Route path='/favoritebutton' element={<FavoriteButton/>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/signup" element={<SignUpPage/>}/>
