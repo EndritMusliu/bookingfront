@@ -20,8 +20,8 @@ import RegistrationBox from './components/RegistrationBox';
 import ListProperty from './pages/ListProperty';
 import RegisterInfoComponent from './components/RegisterInfoComponent';
 import RegisterProperty from './pages/RegisterProperty';
-
-
+import SearchResults from './pages/SearchResults';
+import PropertiesFound from './components/PropertiesFound';
 function App() {
 
   const {isAuthenticated}=useAuth();
@@ -46,6 +46,8 @@ function App() {
         <Route path='/registration/info' element={isAuthenticated ? <RegisterInfoComponent /> : <Navigate replace to="/login" />} />
         <Route path='/register/property' element={isAuthenticated ? <RegisterProperty /> : <Navigate replace to="/login" />} />
         <Route path='/favoritebutton' element={<FavoriteButton/>}/>
+        <Route path='/search/results' element={<SearchResults/>}/>
+        <Route path='/properties/found' element={<PropertiesFound/>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/signup" element={<SignUpPage/>}/>
       </Routes>
