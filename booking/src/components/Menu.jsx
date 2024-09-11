@@ -65,7 +65,7 @@ function Menu() {
 <TfiWorld />
 </button>
           <a href='/list/properties'>
-            <button  class="btn bg-none rounded text-white">
+            <button  className="btn bg-none rounded text-white">
             List your property
             </button>
             </a>

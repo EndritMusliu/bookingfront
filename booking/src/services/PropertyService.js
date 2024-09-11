@@ -20,6 +20,15 @@ class PropertyService {
   deleteProperty(propertyId) {
     return apiClient.delete(`properties/${propertyId}/`);
   }
+  getAllPropertiesBySearch(searchQuery) {
+    return apiClient.get('api/properties/search/', {
+      params: {
+        search: searchQuery,
+      },
+    });
+  }
+  
 }
+
 
 export default new PropertyService();

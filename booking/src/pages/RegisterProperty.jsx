@@ -87,91 +87,145 @@ function RegisterProperty() {
 
       const submitProperty = async () => {
         setIsSubmitting(true); // Disable the button when form submission starts
-
-          try {
-            const allContinents = await ContinentService.getAllContinents();
+    
+        try {
+            // Get or create continent
             let selectedContinentId;
-            const existingContinent = allContinents.data.find(cont => cont.name === continent);
-            
-            if (existingContinent) {
-                selectedContinentId = existingContinent.id;
-            } else {
-                const continentResponse = await ContinentService.createContinent({ name: continent });
-                selectedContinentId = continentResponse.data.id;
+            try {
+                const allContinents = await ContinentService.getAllContinents();
+                const existingContinent = allContinents.data.find(cont => cont.name === continent);
+    
+                if (existingContinent) {
+                    selectedContinentId = existingContinent.id;
+                } else {
+                    const continentResponse = await ContinentService.createContinent({ name: continent });
+                    selectedContinentId = continentResponse.data.id;
+                }
+            } catch (error) {
+                throw new Error(`Error fetching or creating continent: ${error.response ? error.response.data : error.message}`);
             }
-        
-            
-            const allCountries = await CountryService.getAllCountries();
+    
+            // Get or create country
             let selectedCountryId;
-            const existingCountry = allCountries.data.find(c => c.name === country && c.continent.id === selectedContinentId);
-            
-            if (existingCountry) {
-                selectedCountryId = existingCountry.id;
-            } else {
-                const countryResponse = await CountryService.createCountry({ 
-                    name: country, 
-                    continent: { id: selectedContinentId }
-                });
-                selectedCountryId = countryResponse.data.id;
+            try {
+                const allCountries = await CountryService.getAllCountries();
+                const existingCountry = allCountries.data.find(c => c.name === country && c.continent.id === selectedContinentId);
+    
+                if (existingCountry) {
+                    selectedCountryId = existingCountry.id;
+                } else {
+                    const countryResponse = await CountryService.createCountry({ 
+                        name: country, 
+                        continent: { id: selectedContinentId }
+                    });
+                    selectedCountryId = countryResponse.data.id;
+                }
+            } catch (error) {
+                throw new Error(`Error fetching or creating country: ${error.response ? error.response.data : error.message}`);
             }
-        
-            const allCities = await CityService.getAllCities();
+    
+            // Get or create city
             let selectedCityId;
-            const existingCity = allCities.data.find(c => c.name === city && c.country.id === selectedCountryId);
-            
-            if (existingCity) {
-                selectedCityId = existingCity.id;
-            } else {
-                const cityResponse = await CityService.createCity({ 
-                    name: city, 
-                    country: { id: selectedCountryId }
-                });
-                selectedCityId = cityResponse.data.id;
-            }
-        
-            const allStreets = await StreetService.getAllStreets();
-            let selectedStreetId;
-            const existingStreet = allStreets.data.find(s => s.name === streetName && s.city.id === selectedCityId);
-            
-            if (existingStreet) {
-                selectedStreetId = existingStreet.id;
-            } else {
-                const streetPayload = { 
-                    name: streetName, 
-                    city: { 
-                        id: selectedCityId, 
+            try {
+                const allCities = await CityService.getAllCities();
+                const existingCity = allCities.data.find(c => c.name === city && c.country.id === selectedCountryId);
+    
+                if (existingCity) {
+                    selectedCityId = existingCity.id;
+                } else {
+                    const cityResponse = await CityService.createCity({ 
                         name: city, 
-                        country: { 
-                            id: selectedCountryId 
-                        }
-                    }
-                };
-            
-                const streetResponse = await StreetService.createStreet(streetPayload);
-                selectedStreetId = streetResponse.data.id;
+                        country: { id: selectedCountryId }
+                    });
+                    selectedCityId = cityResponse.data.id;
+                }
+            } catch (error) {
+                throw new Error(`Error fetching or creating city: ${error.response ? error.response.data : error.message}`);
             }
+// Get or create street
+let selectedStreetId;
+try {
+    const allStreets = await StreetService.getAllStreets();
+    const existingStreet = allStreets.data.find(s => s.name === streetName && s.city.id === selectedCityId);
+
+    if (existingStreet) {
+        selectedStreetId = existingStreet.id;
+    } else {
+        const streetPayload = {
+            name: streetName,
+            city: { 
+                id: selectedCityId, 
+                name: city, 
+                country: { 
+                    id: selectedCountryId, // Include the country reference
+                }
+            }
+        };
+
+        const streetResponse = await StreetService.createStreet(streetPayload);
+        selectedStreetId = streetResponse.data.id;
+    }
+} catch (error) {
+    console.error("Error fetching or creating street:", JSON.stringify(error.response ? error.response.data : error.message, null, 2));
+    throw new Error(`Error fetching or creating street: ${error.response ? error.response.data : error.message}`);
+}
+
+
+    
             const formatDateTime = (timeString) => {
-                const today = new Date(); // Get today's date
-                const datePart = today.toISOString().split('T')[0]; 
-                return `${datePart} ${timeString}:00`; 
+                const today = new Date();
+                const datePart = today.toISOString().split('T')[0];
+                return `${datePart} ${timeString}:00`;
             };
-            
-            const formattedCheckIn = formatDateTime(checkInTime); 
+    
+            const formattedCheckIn = formatDateTime(checkInTime);
             const formattedCheckOut = formatDateTime(checkOutTime);
-            const propertyData = {
-                property_name: propertyName,
-                description: propertyDescription,
-                user: user.id, 
-                property_type: propertyType,  
-                street: selectedStreetId, 
-                meal: mealOffer,  
-                check_in: formattedCheckIn, 
-                check_out: formattedCheckOut, 
-            };
-            
+    
+            // Create property
+            let propertyId;
+            try {
+                // const propertyData = {
+                //     property_name: propertyName,
+                //     description: propertyDescription,
+                //     user: user.id,
+                //     property_type: propertyType,
+                //     street: selectedStreetId,
+                //     meal: mealOffer,
+                //     check_in: formattedCheckIn,
+                //     check_out: formattedCheckOut,
+                // };
+                const propertyData = {
+                    property_name: propertyName,
+                    description: propertyDescription,
+                    user: {id:user.id,
+                      username:user.username
+                    },
+                    property_type: {id:
+                      propertyType},
+                    street: {id:selectedStreetId,
+                    city:{id:selectedCityId,
+                      country:{
+                        id:selectedCountryId
+                      }
+                    }
+                  
+                    },
+                    meal: {id:mealOffer},
+                    check_in: formattedCheckIn,
+                    check_out: formattedCheckOut,
+                };
+
                 const propertyResponse = await PropertyService.createProperty(propertyData);
-                const propertyId = propertyResponse.data.id;
-        
+                propertyId = propertyResponse.data.id;
+              } catch (error) {
+                console.error("Error fetching or creating property:", JSON.stringify(error.response ? error.response.data : error.message, null, 2));
+                throw new Error(`Error fetching or creating property: ${error.response ? error.response.data : error.message}`);
+            }
+            
+    
+            // Create room
+            let roomId;
+            try {
                 const roomData = {
                     property: propertyId,
                     price_p_n: roomPrice,
@@ -180,97 +234,69 @@ function RegisterProperty() {
                     room_size: roomSize,
                     description: roomDescription,
                 };
-                
-                let roomId; 
-                
-                try {
-                    const roomResponse = await RoomService.createRoom(roomData);
-                    roomId = roomResponse.data.id;  
-                
-                } catch (error) {
-                    console.error("Error creating room:", error.response ? error.response.data : error.message);
-                }
-            // try {
-            //     for (const image of images) {
-            //       const formData = new FormData();
-                  
-            //       // Send the property ID as a regular form field, not as a JSON string
-            //       formData.append('property', propertyId);
-              
-            //       // Attach the image file
-            //       formData.append('image', image);
-              
-            //       // No need to set Content-Type, let FormData handle it automatically
-            //       try {
-            //         const response = await ImageService.createImage(formData);
-            //         console.log("Image uploaded successfully:", response.data);
-            //       } catch (error) {
-            //         console.error("Error uploading image:", error.response ? error.response.data : error.message);
-            //       }
-            //     }
-            //   } catch (overallError) {
-            //     console.error("Error in the image upload process:", overallError);
-            //   }
-              
-              
-      
+                const roomResponse = await RoomService.createRoom(roomData);
+                roomId = roomResponse.data.id;
+              } catch (error) {
+                console.error("Error fetching or creating room:", JSON.stringify(error.response ? error.response.data : error.message, null, 2));
+                throw new Error(`Error fetching or creating room: ${error.response ? error.response.data : error.message}`);
+            }
+    
+            // Create property features
             try {
-         
                 for (const featureId of selectedPropertyFeatures) {
                     try {
                         await FeaturesOfPropertyService.createFeaturesOfProperty({
                             property: propertyId,
-                            property_feature: {id:featureId},
+                            property_feature: { id: featureId },
                             is_available: true,
                         });
                     } catch (error) {
                         console.error(`Error creating property feature ${featureId}:`, error.response ? error.response.data : error.message);
                     }
                 }
-            
-            } catch (error) {
-                console.error("Error processing property features:", error);
+              } catch (error) {
+                console.error("Error fetching or creating p featires:", JSON.stringify(error.response ? error.response.data : error.message, null, 2));
+                throw new Error(`Error fetching or creating p featires : ${error.response ? error.response.data : error.message}`);
             }
-            
+    
+            // Create room features
             try {
-
                 for (const featureId of selectedRoomFeatures) {
                     try {
                         await FeaturesOfRoomService.createFeaturesOfRoom({
                             room: roomId,
-                            room_feature: {id:featureId},
+                            room_feature: { id: featureId },
                             is_available: true,
                         });
-                     
-                    } catch (error) {
-                        console.error(`Error creating room feature ${featureId}:`, error.response ? error.response.data : error.message);
+                      } catch (error) {
+                        console.error("Error fetching or creating room f:", JSON.stringify(error.response ? error.response.data : error.message, null, 2));
+                        throw new Error(`Error fetching or creating roomf: ${error.response ? error.response.data : error.message}`);
                     }
                 }
-            
             } catch (error) {
-                console.error("Error processing room features:", error);
+                console.error("Error processing room features:", error.message);
             }
-            
+    
             toast.success('Property successfully added!', {
-                position: "top-right", // Use string instead of POSITION constant
-                autoClose: 3000, // Closes after 3 seconds
-              });
-          
-              // Redirect to /stays after showing the toast
-              setTimeout(() => {
-                navigate('/stays'); // Redirect after the toast message is shown
-              }, 3000); // Redirect after 3 seconds (same as autoClose duration)
-          
-            } catch (error) {
-              console.error('Error submitting property:', error);
-              toast.error('Error adding property. Please try again.', {
-                position: "bottom-left", // Use string instead of POSITION constant
+                position: "top-right",
                 autoClose: 3000,
-              });
-            }   finally {
-                setIsSubmitting(false); // Re-enable the button after form submission completes or fails
-              }
-          };
+            });
+    
+            setTimeout(() => {
+                navigate('/stays');
+            }, 3000);
+    
+        } catch (error) {
+            console.error('Error submitting property:', error.message);
+            toast.error('Error adding property. Please try again.', {
+                position: "top-right",
+                autoClose: 2000,
+            });
+        } finally {
+            setIsSubmitting(false); // Re-enable the button after form submission completes or fails
+        }
+    };
+    
     const [errors, setErrors] = useState({});
 
     const validateFields = () => {
@@ -930,8 +956,8 @@ function RegisterProperty() {
 
   return (
 
-    <div className="container mt-4"> 
-    <ToastContainer />
+<div className="container" style={{ marginTop: '150px' }}> 
+<ToastContainer />
         <div className="card shadow-lg border-0">
             <div className="card-body">
 

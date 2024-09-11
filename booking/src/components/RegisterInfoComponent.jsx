@@ -28,7 +28,7 @@ function RegisterInfoComponent(){
   
         <div className="container mt-5">
       <div id="peace-of-mind" className="mt-5">
-        <h1 class="fw-bold">List with peace of mind</h1>
+        <h1 className="fw-bold">List with peace of mind</h1>
         <div className="row mt-4">
           <div className="col-md-6">
             <ul className="list-unstyled">
