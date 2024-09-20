@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import {API_URL} from "../utils/backendApi";
+import { API_URL } from '../utils/backendApi';
 
 const SignUpComponent = () => {
   const [formData, setFormData] = useState({
@@ -10,8 +10,26 @@ const SignUpComponent = () => {
     last_name: '',
     email: '',
     password: '',
-    user_type: '',
+    user_type: '', // Should hold the ID of the selected UserType
   });
+
+  const [userTypes, setUserTypes] = useState([]);
+
+  const navigate = useNavigate();
+
+  // Fetch user types from the API
+  useEffect(() => {
+    const fetchUserTypes = async () => {
+      try {
+        const response = await axios.get(`${API_URL}usertypes/`);
+        setUserTypes(response.data);
+      } catch (error) {
+        console.error('Error fetching user types:', error);
+      }
+    };
+
+    fetchUserTypes();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -20,21 +38,17 @@ const SignUpComponent = () => {
     });
   };
 
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
 
     try {
       const response = await axios.post(`${API_URL}signup/`, formData);
       console.log('Signup Success:', response.data);
-      navigate('/login')
-      // Redirect or perform further actions here
+      navigate('/login');
     } catch (error) {
       console.error('Signup Error:', error.response ? error.response.data : 'Unknown error');
       console.log('Making signup request with data:', formData);
-
     }
   };
 
@@ -72,14 +86,23 @@ const SignUpComponent = () => {
         onChange={handleChange}
         style={{ marginBottom: '10px', padding: '10px' }}
       />
-        <input
-        type="text"
-        name="user_type"
-        placeholder="User Type"
-        value={formData.user_type}
-        onChange={handleChange}
-        style={{ marginBottom: '10px', padding: '10px' }}
-      />
+
+      {/* Dropdown for selecting user type */}
+        <select
+            name="user_type"
+            value={formData.user_type}
+            onChange={handleChange}
+            style={{ marginBottom: '10px', padding: '10px' }}
+        >
+            <option value="">Select User Type</option>
+            {userTypes.map((type) => (
+                <option key={type.id} value={type.id}>
+                    {type.name}
+                </option>
+            ))}
+        </select>
+
+
       <input
         type="password"
         name="password"
@@ -96,3 +119,4 @@ const SignUpComponent = () => {
 };
 
 export default SignUpComponent;
+

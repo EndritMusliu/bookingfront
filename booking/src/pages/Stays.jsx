@@ -3,6 +3,8 @@ import Footer from "../components/Footer";
 import SearchComponent from "../components/SearchComponent";
 import Banner from "../components/Banner";
 import Properties from "../components/Properties";
+import BrowseByProperty from "../components/BrowseByProperty";
+import CitiesComponent from "../components/CitiesComponent";
 
 function Stays(){
     return(
@@ -30,6 +32,11 @@ function Stays(){
               
             </div>
           </div>
+            <br/>
+            <BrowseByProperty/>
+            <br/>
+            <CitiesComponent/>
+            <br/>
         </div>
   
         <Footer />
