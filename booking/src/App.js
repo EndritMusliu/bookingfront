@@ -22,6 +22,7 @@ import RegisterInfoComponent from './components/RegisterInfoComponent';
 import RegisterProperty from './pages/RegisterProperty';
 import SearchResults from './pages/SearchResults';
 import PropertiesFound from './components/PropertiesFound';
+import ProfilePage from "./pages/ProfilePage";
 function App() {
 
   const {isAuthenticated}=useAuth();
@@ -50,6 +51,7 @@ function App() {
         <Route path='/properties/found' element={<PropertiesFound/>}/>
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/signup" element={<SignUpPage/>}/>
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </Router>
   );
