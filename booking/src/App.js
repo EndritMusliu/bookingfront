@@ -23,6 +23,8 @@ import RegisterProperty from './pages/RegisterProperty';
 import SearchResults from './pages/SearchResults';
 import PropertiesFound from './components/PropertiesFound';
 import ProfilePage from "./pages/ProfilePage";
+import BankDetailsPage from "./pages/BankDetailPage";
+import BookingsPage from "./pages/BookingsPage";
 function App() {
 
   const {isAuthenticated}=useAuth();
@@ -52,6 +54,8 @@ function App() {
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/signup" element={<SignUpPage/>}/>
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/bank-details" element={<BankDetailsPage />} />
+         <Route path="/my-bookings" element={<BookingsPage />} />
       </Routes>
     </Router>
   );

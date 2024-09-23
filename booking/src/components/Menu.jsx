@@ -45,6 +45,13 @@ function Menu() {
                 </div>
               </Link>
             </li>
+            <li className="nav-item">
+                <Link className="nav-link ms-4" to="/my-bookings">
+                  <div className={`p-2 text-white ${location.pathname === '/my-bookings' ? 'border border-light rounded-5' : ''}`}>
+                    My Bookings
+                  </div>
+                </Link>
+              </li>
             </ul>
         <ul className="navbar-nav ms-auto">
           <li className="nav-item">
@@ -78,7 +85,13 @@ function Menu() {
               Profile
             </Link>
           </li>
-  
+
+          <li className="nav-item">
+            <Link className="nav-link" to="/bank-details">
+             Bank Details
+            </Link>
+          </li>
+
         </ul>
       </div>
     </div>
