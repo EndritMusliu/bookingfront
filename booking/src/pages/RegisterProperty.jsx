@@ -184,36 +184,36 @@ try {
             // Create property
             let propertyId;
             try {
-                // const propertyData = {
-                //     property_name: propertyName,
-                //     description: propertyDescription,
-                //     user: user.id,
-                //     property_type: propertyType,
-                //     street: selectedStreetId,
-                //     meal: mealOffer,
-                //     check_in: formattedCheckIn,
-                //     check_out: formattedCheckOut,
-                // };
                 const propertyData = {
                     property_name: propertyName,
                     description: propertyDescription,
-                    user: {id:user.id,
-                      username:user.username
-                    },
-                    property_type: {id:
-                      propertyType},
-                    street: {id:selectedStreetId,
-                    city:{id:selectedCityId,
-                      country:{
-                        id:selectedCountryId
-                      }
-                    }
-                  
-                    },
-                    meal: {id:mealOffer},
-                    check_in: formattedCheckIn,
-                    check_out: formattedCheckOut,
+                    user: user.id,
+                    property_type: propertyType,
+                    street: selectedStreetId,
+                    meal: mealOffer,
+                    // check_in: formattedCheckIn,
+                    // check_out: formattedCheckOut,
                 };
+                // const propertyData = {
+                //     property_name: propertyName,
+                //     description: propertyDescription,
+                //     user: {id:user.id,
+                //       username:user.username
+                //     },
+                //     property_type: {id:
+                //       propertyType},
+                //     street: {id:selectedStreetId,
+                //     city:{id:selectedCityId,
+                //       country:{
+                //         id:selectedCountryId
+                //       }
+                //     }
+                  
+                //     },
+                //     meal: {id:mealOffer},
+                //     // check_in: formattedCheckIn,
+                //     // check_out: formattedCheckOut,
+                // };
 
                 const propertyResponse = await PropertyService.createProperty(propertyData);
                 propertyId = propertyResponse.data.id;

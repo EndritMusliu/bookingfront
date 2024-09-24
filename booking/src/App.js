@@ -43,7 +43,7 @@ function App() {
         <Route path="/banner" element={<Banner />} />
         <Route path="/signin" element={<SignIn />}/>
         <Route path='/properties' element={<Properties/>}/>
-        <Route path='/properties/details' element={isAuthenticated ? <PropertyDetails /> : <Navigate replace to="/login" />} />
+        <Route path="/properties/:id" element={<PropertyDetails />} />
         <Route path='/registration/box' element={isAuthenticated ? <RegistrationBox /> : <Navigate replace to="/login" />} />
         <Route path='/list/properties' element={isAuthenticated ? <ListProperty /> : <Navigate replace to="/login" />} />
         <Route path='/registration/info' element={isAuthenticated ? <RegisterInfoComponent /> : <Navigate replace to="/login" />} />

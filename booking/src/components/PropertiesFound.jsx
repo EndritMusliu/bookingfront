@@ -1,9 +1,15 @@
 import React from "react";
-import FavoriteButton from "./FavoriteButton"; // Assuming you have this component for the heart button
+import FavoriteButton from "./FavoriteButton";
+import { Link } from "react-router-dom";
+
 
 function PropertiesFound({ property }) {
   return (
+    <>
+<Link to={`/properties/${property.id}`}>
+
     <div className="card mb-3 shadow-lg border-0" style={{height:'250px'}}>
+
       <div className="row g-0">
         <div className="col-md-4 position-relative p-2">
           <img 
@@ -16,7 +22,8 @@ function PropertiesFound({ property }) {
         
         <div className="col-md-5">
           <div className="card-body border-2">
-            <h5 className="card-title">{property.property_name}</h5>
+          <h5 className="card-title">{property.property_name}</h5>
+           
             <p className="card-text text-muted">
               <a href="#">{property.street?.name}, {property.street?.city?.name}, {property.street?.city?.country?.name}</a> 
 
@@ -44,6 +51,9 @@ function PropertiesFound({ property }) {
         </div>
       </div>
     </div>
+    </Link>
+
+    </>
   );
 }
 
